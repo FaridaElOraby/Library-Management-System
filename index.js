@@ -1,31 +1,22 @@
 const express = require("express");
-const { Pool } = require("pg");
-
-require("dotenv").config();
-
+const fs = require("fs");
+const path = require("path");
 const app = express();
 const port = process.env.PORT || 3000;
 
-const connectionString = process.env.DATABASE_URL;
+require("dotenv").config();
 
-const pool = new Pool({
-  connectionString,
-  ssl: {
-    rejectUnauthorized: false,
-  },
+// Load routes from the controllers folder
+const controllersPath = path.join(__dirname, "controllers");
+const controllers = fs.readdirSync(controllersPath);
+
+controllers.forEach((file) => {
+  const controllerPath = path.join(controllersPath, file);
+  const routes = require(controllerPath);
+  app.use("/", routes);
 });
 
-app.get("/sql_health", (req, res) => {
-  pool.query("SELECT NOW()", (err, result) => {
-    if (err) {
-      console.error("Error executing query", err);
-      res.status(500).send("Internal Server Error");
-    } else {
-      res.send(`Connected to the database at ${result.rows[0].now}`);
-    }
-  });
-});
-
+// Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
