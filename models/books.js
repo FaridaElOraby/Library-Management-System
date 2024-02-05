@@ -22,7 +22,7 @@ const Book = sequelize.define("Book", {
     validate: {
       notNull: true,
       notEmpty: true,
-      is: "/^(?=(?:d{10}(?:(?:d{3}))?$)[d-]+$/",
+      is: "^(?:ISBN(?:-13)?:? )?(?=[0-9]{13}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)97[89][- ]?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9]$",
     },
   },
   available_quantity: {

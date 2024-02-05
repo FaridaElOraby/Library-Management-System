@@ -6,7 +6,7 @@ const validationSchema = require("../validation-schemas/books-validation-schema"
 // API to get all books unpaginated
 router.get("/books/all", async (req, res) => {
   try {
-    const books = await booksService.getAllBooks();
+    const books = await booksService.getBooks();
     res.json(books);
   } catch (error) {
     console.error("Error fetching books", error);
@@ -20,7 +20,6 @@ router.get("/books", async (req, res) => {
     const validationResult = validationSchema.GET_BOOKS_PAGINATED.validate(
       req.query
     );
-
     if (validationResult.error) {
       res.status(400).send(validationResult.error.details[0].message);
       return;
@@ -28,7 +27,8 @@ router.get("/books", async (req, res) => {
 
     const page = req.query.page;
     const pageSize = req.query.pageSize;
-    const books = await booksService.getBooks(page, pageSize);
+    const books = await booksService.getBooks({ page, pageSize });
+
     res.json(books);
   } catch (error) {
     console.error("Error fetching books", error);
@@ -40,7 +40,6 @@ router.get("/books", async (req, res) => {
 router.post("/books", async (req, res) => {
   try {
     const validationResult = validationSchema.CREATE_BOOK.validate(req.body);
-
     if (validationResult.error) {
       res.status(400).send(validationResult.error.details[0].message);
       return;
@@ -48,6 +47,7 @@ router.post("/books", async (req, res) => {
 
     const newBook = req.body;
     const createdBook = await booksService.createBook(newBook);
+
     res.status(201).json(createdBook);
   } catch (error) {
     console.error("Error creating book", error);
@@ -59,15 +59,15 @@ router.post("/books", async (req, res) => {
 router.get("/books/:id", async (req, res) => {
   try {
     const validationResult = validationSchema.BOOK_ID.validate(req.params);
-
     if (validationResult.error) {
       res.status(400).send(validationResult.error.details[0].message);
       return;
     }
 
-    const bookId = req.params.id;
-    await booksService.getBook(bookId);
-    res.sendStatus(204);
+    const id = req.params.id;
+    const book = await booksService.getBook(id);
+
+    res.status(200).json(book);
   } catch (error) {
     console.error("Error getting book", error);
     res.status(500).send("Internal Server Error");
@@ -78,7 +78,6 @@ router.get("/books/:id", async (req, res) => {
 router.put("/books/:id", async (req, res) => {
   try {
     const validationResult = validationSchema.BOOK_ID.validate(req.params);
-
     if (validationResult.error) {
       res.status(400).send(validationResult.error.details[0].message);
       return;
@@ -90,9 +89,10 @@ router.put("/books/:id", async (req, res) => {
       return;
     }
 
-    const bookId = req.params.id;
+    const id = req.params.id;
     const updatedBook = req.body;
-    await booksService.updateBook(bookId, updatedBook);
+
+    await booksService.updateBook(id, updatedBook);
     res.sendStatus(204);
   } catch (error) {
     console.error("Error updating book", error);
@@ -104,14 +104,14 @@ router.put("/books/:id", async (req, res) => {
 router.delete("/books/:id", async (req, res) => {
   try {
     const validationResult = validationSchema.BOOK_ID.validate(req.params);
-
     if (validationResult.error) {
       res.status(400).send(validationResult.error.details[0].message);
       return;
     }
 
-    const bookId = req.params.id;
-    await booksService.deleteBook(bookId);
+    const id = req.params.id;
+    await booksService.deleteBook(id);
+
     res.sendStatus(204);
   } catch (error) {
     console.error("Error deleting book", error);

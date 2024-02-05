@@ -1,37 +1,47 @@
 const booksDAL = require("../dal/books-dal");
 
-// Service to get all books
-async function getAllBooks() {
-  return booksDAL.getAllBooks();
+// Service to get book by id
+async function getBook(id) {
+  const books = await getBooks({ id });
+
+  if (books.length > 0) {
+    return books[0];
+  } else {
+    throw new Error("Book not found");
+  }
 }
 
-// Service to get books paginated
-async function getBooks(page, pageSize) {
-  return booksDAL.getBooks(page, pageSize);
-}
+// Service to get books paginated and filtered
+async function getBooks(query) {
+  if (query) {
+    const { page, pageSize, ...filter } = query;
+    const options = {};
+    if (page && pageSize) {
+      options.offset = (page - 1) * pageSize;
+      options.limit = pageSize;
+    }
+    return await booksDAL.getBooks(filter, options);
+  }
 
-// Service to get a book by id
-async function getBook(bookId) {
-  return booksDAL.getBook(bookId);
+  return await booksDAL.getBooks();
 }
 
 // Service to create a new book
 async function createBook(book) {
-  return booksDAL.createBook(book);
+  return await booksDAL.createBook(book);
 }
 
 // Service to update a book by id
 async function updateBook(bookId, updatedBook) {
-  return booksDAL.updateBook(bookId, updatedBook);
+  return await booksDAL.updateBook(bookId, updatedBook);
 }
 
 // Service to delete a book by id
 async function deleteBook(bookId) {
-  return booksDAL.deleteBook(bookId);
+  return await booksDAL.deleteBook(bookId);
 }
 
 module.exports = {
-  getAllBooks,
   getBooks,
   getBook,
   createBook,
