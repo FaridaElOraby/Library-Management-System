@@ -16,6 +16,7 @@
     "express-validator": "^7.0.1",
     "joi": "^17.12.1",
     "pg": "^8.11.3",
+    "sequelize": "^6.36.0",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

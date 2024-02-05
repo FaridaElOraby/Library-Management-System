@@ -1,19 +1,18 @@
 const express = require("express");
 const router = express.Router();
-
-// Import the pool object from the db.js file
-const pool = require("../db");
+const sequelize = require("../config/db");
 
 // DB Health check endpoint
-router.get("/sql_health", (req, res) => {
-  pool.query("SELECT NOW()", (err, result) => {
-    if (err) {
-      console.error("Error executing query", err);
-      res.status(500).send("Internal Server Error");
-    } else {
-      res.send(`Connected to the database at ${result.rows[0].now}`);
-    }
-  });
+router.get("/sql_health", async (req, res) => {
+  try {
+    await sequelize.authenticate();
+    res.send(
+      `Connected to the database. DB Server uptime: ${process.uptime()} seconds`
+    );
+  } catch (error) {
+    console.error("Error connecting to the database:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 // App health check endpoint

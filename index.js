@@ -1,10 +1,11 @@
 const express = require("express");
+require("dotenv").config();
+
 const fs = require("fs");
 const path = require("path");
 const app = express();
 const port = process.env.PORT || 3000;
-
-require("dotenv").config();
+const sequelize = require("./config/db");
 
 // Load routes from the controllers folder
 const controllersPath = path.join(__dirname, "controllers");
@@ -20,3 +21,12 @@ controllers.forEach((file) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+sequelize
+  .sync()
+  .then(() => {
+    console.log("Database synced");
+  })
+  .catch((error) => {
+    console.error("Error syncing database:", error);
+  });

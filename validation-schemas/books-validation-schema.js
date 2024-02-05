@@ -4,7 +4,9 @@ const bookSchema = Object.create(null);
 
 bookSchema.CREATE_BOOK = Joi.object({
   title: Joi.string().required(),
-  ISBN: Joi.string().required().regex("^(?=(?:D*d){10}(?:(?:D*d){3})?$)[d-]+$"),
+  ISBN: Joi.string()
+    .required()
+    .regex(new RegExp("^(?=(?:D*d){10}(?:(?:D*d){3})?$)[d-]+$")),
   available_quantity: Joi.number().required(),
   shelf_location: Joi.string().required(),
   author_name: Joi.string().required(),
@@ -12,7 +14,9 @@ bookSchema.CREATE_BOOK = Joi.object({
 
 bookSchema.UPDATE_BOOK = Joi.object({
   title: Joi.string().optional(),
-  ISBN: Joi.string().optional().regex("^(?=(?:D*d){10}(?:(?:D*d){3})?$)[d-]+$"),
+  ISBN: Joi.string()
+    .optional()
+    .regex(new RegExp("^(?=(?:D*d){10}(?:(?:D*d){3})?$)[d-]+$")),
   available_quantity: Joi.number().optional(),
   shelf_location: Joi.string().optional(),
   author_name: Joi.string().optional(),
