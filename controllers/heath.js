@@ -1,12 +1,12 @@
-const express = require("express");
-const router = express.Router();
+import { Router } from "express";
+const router = Router();
 
 // Import the pool object from the db.js file
-const pool = require("../db");
+import { query } from "../db";
 
 // DB Health check endpoint
 router.get("/sql_health", (req, res) => {
-  pool.query("SELECT NOW()", (err, result) => {
+  query("SELECT NOW()", (err, result) => {
     if (err) {
       console.error("Error executing query", err);
       res.status(500).send("Internal Server Error");
@@ -21,4 +21,4 @@ router.get("/app_health", (req, res) => {
   res.send(`App is running for ${process.uptime()} seconds`);
 });
 
-module.exports = router;
+export default router;

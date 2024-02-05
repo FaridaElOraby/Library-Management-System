@@ -1,4 +1,4 @@
-const { Pool } = require("pg");
+import { Pool } from "pg";
 
 // Use the DATABASE_URL environment variable to connect to the database
 const connectionString = process.env.DATABASE_URL;
@@ -11,4 +11,4 @@ const pool = new Pool({
   },
 });
 
-module.exports = pool;
+export default pool;
