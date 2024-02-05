@@ -1,17 +1,17 @@
-import express from "express";
-import { readdirSync } from "fs";
-import { join } from "path";
+const express = require("express");
+const fs = require("fs");
+const path = require("path");
 const app = express();
 const port = process.env.PORT || 3000;
 
 require("dotenv").config();
 
 // Load routes from the controllers folder
-const controllersPath = join(__dirname, "controllers");
-const controllers = readdirSync(controllersPath);
+const controllersPath = path.join(__dirname, "controllers");
+const controllers = fs.readdirSync(controllersPath);
 
 controllers.forEach((file) => {
-  const controllerPath = join(controllersPath, file);
+  const controllerPath = path.join(controllersPath, file);
   const routes = require(controllerPath);
   app.use("/", routes);
 });
