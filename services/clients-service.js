@@ -7,7 +7,9 @@ async function getClient(id) {
   if (clients.length > 0) {
     return clients[0];
   } else {
-    throw new Error("client not found");
+    const error = new Error("Client not found");
+    error.statusCode = 404;
+    throw error;
   }
 }
 

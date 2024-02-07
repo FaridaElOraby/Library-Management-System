@@ -18,16 +18,22 @@ async function borrowBook(borrow) {
 
   const client = await clientService.getClient(borrow.clientId);
   if (!client) {
-    throw new Error("Client not found");
+    const error = new Error("Client not found");
+    error.statusCode = 404;
+    throw error;
   }
 
   const book = await bookService.getBook(borrow.bookId);
   if (!book) {
-    throw new Error("Book not found");
+    const error = new Error("Book not found");
+    error.statusCode = 404;
+    throw error;
   }
 
   if (book.available_quantity <= 0) {
-    throw new Error("Book not available");
+    const error = new Error("Book not available");
+    error.statusCode = 400;
+    throw error;
   }
 
   const updateStatement = {
@@ -50,12 +56,16 @@ async function returnBook(borrowRecordId) {
   const borrowedRecord = await borrowDAL.findOne(query);
 
   if (!borrowedRecord) {
-    throw new Error("Borrowed record not found");
+    const error = new Error("Borrowed record not found");
+    error.statusCode = 404;
+    throw error;
   }
 
   const book = await bookService.getBook(borrowedRecord.bookId);
   if (!book) {
-    throw new Error("Book not found");
+    const error = new Error("Book not found");
+    error.statusCode = 404;
+    throw error;
   }
 
   const bookUpdateStatement = {

@@ -9,9 +9,10 @@ router.get("/sql_health", async (req, res) => {
     res.send(
       `Connected to the database. DB Server uptime: ${process.uptime()} seconds`
     );
-  } catch (error) {
-    console.error("Error connecting to the database:", error);
-    res.status(500).send("Internal Server Error");
+  } catch (err) {
+    res
+      .status(err.statusCode || 500)
+      .json({ error: err.message || "Internal server error" });
   }
 });
 

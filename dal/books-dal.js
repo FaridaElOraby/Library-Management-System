@@ -19,7 +19,9 @@ async function updateBook(bookId, updatedBook) {
   if (book) {
     await book.update(updatedBook);
   } else {
-    throw new Error("Book not found");
+    const error = new Error("Book not found");
+    error.statusCode = 404;
+    throw error;
   }
 }
 
@@ -29,7 +31,9 @@ async function deleteBook(bookId) {
   if (book) {
     await book.destroy();
   } else {
-    throw new Error("Book not found");
+    const error = new Error("Book not found");
+    error.statusCode = 404;
+    throw error;
   }
 }
 

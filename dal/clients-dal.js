@@ -19,7 +19,9 @@ async function updateClient(clientId, updatedClient) {
   if (client) {
     return await client.update(updatedClient);
   } else {
-    throw new Error("Client not found");
+    const error = new Error("Client not found");
+    error.statusCode = 404;
+    throw error;
   }
 }
 
@@ -29,7 +31,9 @@ async function deleteClient(clientId) {
   if (client) {
     return await client.destroy();
   } else {
-    throw new Error("Client not found");
+    const error = new Error("Client not found");
+    error.statusCode = 404;
+    throw error;
   }
 }
 

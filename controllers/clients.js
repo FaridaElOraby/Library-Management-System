@@ -8,9 +8,10 @@ router.get("/clients/all", async (req, res) => {
   try {
     const clients = await clientsService.getClients();
     res.json(clients);
-  } catch (error) {
-    console.error("Error fetching clients", error);
-    res.status(500).send("Internal Server Error");
+  } catch (err) {
+    res
+      .status(err.statusCode || 500)
+      .json({ error: err.message || "Internal server error" });
   }
 });
 
@@ -30,9 +31,10 @@ router.get("/clients", async (req, res) => {
     const clients = await clientsService.getClients({ page, pageSize });
 
     res.json(clients);
-  } catch (error) {
-    console.error("Error fetching clients", error);
-    res.status(500).send("Internal Server Error");
+  } catch (err) {
+    res
+      .status(err.statusCode || 500)
+      .json({ error: err.message || "Internal server error" });
   }
 });
 
@@ -49,9 +51,10 @@ router.post("/clients", async (req, res) => {
     const createdClient = await clientsService.createClient(newClient);
 
     res.status(201).json(createdClient);
-  } catch (error) {
-    console.error("Error creating client", error);
-    res.status(500).send("Internal Server Error");
+  } catch (err) {
+    res
+      .status(err.statusCode || 500)
+      .json({ error: err.message || "Internal server error" });
   }
 });
 
@@ -65,9 +68,10 @@ router.get("/clients/:id", async (req, res) => {
     }
 
     res.json(client);
-  } catch (error) {
-    console.error("Error fetching client", error);
-    res.status(500).send("Internal Server Error");
+  } catch (err) {
+    res
+      .status(err.statusCode || 500)
+      .json({ error: err.message || "Internal server error" });
   }
 });
 
@@ -90,9 +94,10 @@ router.put("/clients/:id", async (req, res) => {
     }
 
     res.json(updatedClient);
-  } catch (error) {
-    console.error("Error updating client", error);
-    res.status(500).send("Internal Server Error");
+  } catch (err) {
+    res
+      .status(err.statusCode || 500)
+      .json({ error: err.message || "Internal server error" });
   }
 });
 
@@ -106,9 +111,10 @@ router.delete("/clients/:id", async (req, res) => {
     }
 
     res.json(deletedClient);
-  } catch (error) {
-    console.error("Error deleting client", error);
-    res.status(500).send("Internal Server Error");
+  } catch (err) {
+    res
+      .status(err.statusCode || 500)
+      .json({ error: err.message || "Internal server error" });
   }
 });
 

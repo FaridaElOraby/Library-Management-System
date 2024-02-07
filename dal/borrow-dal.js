@@ -16,7 +16,9 @@ async function update(query, updateStatement) {
   if (borrow) {
     await borrow.update(updateStatement);
   } else {
-    throw new Error("Borrowed not found");
+    const error = new Error("Borrowed not found");
+    error.statusCode = 404;
+    throw error;
   }
 }
 

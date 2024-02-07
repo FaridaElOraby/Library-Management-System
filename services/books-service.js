@@ -7,7 +7,9 @@ async function getBook(id) {
   if (books.length > 0) {
     return books[0];
   } else {
-    throw new Error("Book not found");
+    const error = new Error("Book not found");
+    error.statusCode = 404;
+    throw error;
   }
 }
 

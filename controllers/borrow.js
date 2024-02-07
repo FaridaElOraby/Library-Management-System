@@ -7,9 +7,10 @@ router.get("/borrowing-history", async (req, res) => {
   try {
     const borrowingRecords = await borrowService.getBorrowingHistroy();
     res.json(borrowingRecords);
-  } catch (error) {
-    console.error("Error fetching borrowed records", error);
-    res.status(500).send("Internal Server Error");
+  } catch (err) {
+    res
+      .status(err.statusCode || 500)
+      .json({ error: err.message || "Internal server error" });
   }
 });
 
@@ -24,9 +25,10 @@ router.post("/borrow-book", async (req, res) => {
     const createdBorrowingRecord = await borrowService.borrowBook(req.body);
 
     res.status(201).json(createdBorrowingRecord);
-  } catch (error) {
-    console.error("Error creating borrowed record", error);
-    res.status(500).send("Internal Server Error");
+  } catch (err) {
+    res
+      .status(err.statusCode || 500)
+      .json({ error: err.message || "Internal server error" });
   }
 });
 
@@ -42,9 +44,10 @@ router.post("/return-book/:borrowRecordId", async (req, res) => {
     const updatedBorrow = await borrowService.returnBook(borrowRecordId);
 
     res.json(updatedBorrow);
-  } catch (error) {
-    console.error("Error updating borrowed record", error);
-    res.status(500).send("Internal Server Error");
+  } catch (err) {
+    res
+      .status(err.statusCode || 500)
+      .json({ error: err.message || "Internal server error" });
   }
 });
 
