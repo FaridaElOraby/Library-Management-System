@@ -15,17 +15,13 @@ async function getBook(id) {
 
 // Service to get books paginated and filtered
 async function getBooks(query) {
-  if (query) {
-    const { page, pageSize, ...filter } = query;
-    const options = {};
-    if (page && pageSize) {
-      options.offset = (page - 1) * pageSize;
-      options.limit = pageSize;
-    }
-    return await booksDAL.getBooks(filter, options);
+  const { page, pageSize, ...filter } = query;
+  const options = {};
+  if (page && pageSize) {
+    options.offset = (page - 1) * pageSize;
+    options.limit = pageSize;
   }
-
-  return await booksDAL.getBooks();
+  return await booksDAL.getBooks(filter, options);
 }
 
 // Service to create a new book

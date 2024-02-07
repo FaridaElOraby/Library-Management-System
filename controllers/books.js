@@ -6,11 +6,19 @@ const validationSchema = require("../validation-schemas/books-validation-schema"
 // API to get all books unpaginated
 router.get("/books/all", async (req, res) => {
   try {
-    const books = await booksService.getBooks();
+    const validationResult = validationSchema.GET_ALL_BOOKS.validate(req.query);
+    if (validationResult.error) {
+      const error = new Error(validationResult.error.details[0].message);
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const books = await booksService.getBooks(req.query);
     res.json(books);
-  } catch (error) {
-    console.error("Error fetching books", error);
-    res.status(500).send("Internal Server Error");
+  } catch (err) {
+    res
+      .status(err.statusCode || 500)
+      .json({ error: err.message || "Internal server error" });
   }
 });
 
@@ -21,18 +29,20 @@ router.get("/books", async (req, res) => {
       req.query
     );
     if (validationResult.error) {
-      res.status(400).send(validationResult.error.details[0].message);
-      return;
+      const error = new Error(validationResult.error.details[0].message);
+      error.statusCode = 400;
+      throw error;
     }
 
     const page = req.query.page;
     const pageSize = req.query.pageSize;
-    const books = await booksService.getBooks({ page, pageSize });
+    const books = await booksService.getBooks(req.query);
 
     res.json(books);
-  } catch (error) {
-    console.error("Error fetching books", error);
-    res.status(500).send("Internal Server Error");
+  } catch (err) {
+    res
+      .status(err.statusCode || 500)
+      .json({ error: err.message || "Internal server error" });
   }
 });
 
@@ -41,17 +51,19 @@ router.post("/books", async (req, res) => {
   try {
     const validationResult = validationSchema.CREATE_BOOK.validate(req.body);
     if (validationResult.error) {
-      res.status(400).send(validationResult.error.details[0].message);
-      return;
+      const error = new Error(validationResult.error.details[0].message);
+      error.statusCode = 400;
+      throw error;
     }
 
     const newBook = req.body;
     const createdBook = await booksService.createBook(newBook);
 
     res.status(201).json(createdBook);
-  } catch (error) {
-    console.error("Error creating book", error);
-    res.status(500).send("Internal Server Error");
+  } catch (err) {
+    res
+      .status(err.statusCode || 500)
+      .json({ error: err.message || "Internal server error" });
   }
 });
 
@@ -60,17 +72,19 @@ router.get("/books/:id", async (req, res) => {
   try {
     const validationResult = validationSchema.BOOK_ID.validate(req.params);
     if (validationResult.error) {
-      res.status(400).send(validationResult.error.details[0].message);
-      return;
+      const error = new Error(validationResult.error.details[0].message);
+      error.statusCode = 400;
+      throw error;
     }
 
     const id = req.params.id;
     const book = await booksService.getBook(id);
 
     res.status(200).json(book);
-  } catch (error) {
-    console.error("Error getting book", error);
-    res.status(500).send("Internal Server Error");
+  } catch (err) {
+    res
+      .status(err.statusCode || 500)
+      .json({ error: err.message || "Internal server error" });
   }
 });
 
@@ -79,8 +93,9 @@ router.put("/books/:id", async (req, res) => {
   try {
     const validationResult = validationSchema.BOOK_ID.validate(req.params);
     if (validationResult.error) {
-      res.status(400).send(validationResult.error.details[0].message);
-      return;
+      const error = new Error(validationResult.error.details[0].message);
+      error.statusCode = 400;
+      throw error;
     }
 
     const validationResult2 = validationSchema.UPDATE_BOOK.validate(req.body);
@@ -94,9 +109,10 @@ router.put("/books/:id", async (req, res) => {
 
     await booksService.updateBook(id, updatedBook);
     res.sendStatus(204);
-  } catch (error) {
-    console.error("Error updating book", error);
-    res.status(500).send("Internal Server Error");
+  } catch (err) {
+    res
+      .status(err.statusCode || 500)
+      .json({ error: err.message || "Internal server error" });
   }
 });
 
@@ -105,17 +121,19 @@ router.delete("/books/:id", async (req, res) => {
   try {
     const validationResult = validationSchema.BOOK_ID.validate(req.params);
     if (validationResult.error) {
-      res.status(400).send(validationResult.error.details[0].message);
-      return;
+      const error = new Error(validationResult.error.details[0].message);
+      error.statusCode = 400;
+      throw error;
     }
 
     const id = req.params.id;
     await booksService.deleteBook(id);
 
     res.sendStatus(204);
-  } catch (error) {
-    console.error("Error deleting book", error);
-    res.status(500).send("Internal Server Error");
+  } catch (err) {
+    res
+      .status(err.statusCode || 500)
+      .json({ error: err.message || "Internal server error" });
   }
 });
 

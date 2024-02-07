@@ -18,8 +18,9 @@ router.post("/borrow-book", async (req, res) => {
   try {
     const validationResult = validationSchema.BORROW_BOOK.validate(req.body);
     if (validationResult.error) {
-      res.status(400).send(validationResult.error.details[0].message);
-      return;
+      const error = new Error(validationResult.error.details[0].message);
+      error.statusCode = 400;
+      throw error;
     }
 
     const createdBorrowingRecord = await borrowService.borrowBook(req.body);
@@ -36,8 +37,9 @@ router.post("/return-book/:borrowRecordId", async (req, res) => {
   try {
     const validationResult = validationSchema.RETURN_BOOK.validate(req.params);
     if (validationResult.error) {
-      res.status(400).send(validationResult.error.details[0].message);
-      return;
+      const error = new Error(validationResult.error.details[0].message);
+      error.statusCode = 400;
+      throw error;
     }
 
     const borrowRecordId = req.params.borrowRecordId;

@@ -22,8 +22,9 @@ router.get("/clients", async (req, res) => {
       req.query
     );
     if (validationResult.error) {
-      res.status(400).send(validationResult.error.details[0].message);
-      return;
+      const error = new Error(validationResult.error.details[0].message);
+      error.statusCode = 400;
+      throw error;
     }
 
     const page = req.query.page;
@@ -43,8 +44,9 @@ router.post("/clients", async (req, res) => {
   try {
     const validationResult = validationSchema.CREATE_CLIENT.validate(req.body);
     if (validationResult.error) {
-      res.status(400).send(validationResult.error.details[0].message);
-      return;
+      const error = new Error(validationResult.error.details[0].message);
+      error.statusCode = 400;
+      throw error;
     }
 
     const newClient = req.body;
@@ -80,8 +82,9 @@ router.put("/clients/:id", async (req, res) => {
   try {
     const validationResult = validationSchema.UPDATE_CLIENT.validate(req.body);
     if (validationResult.error) {
-      res.status(400).send(validationResult.error.details[0].message);
-      return;
+      const error = new Error(validationResult.error.details[0].message);
+      error.statusCode = 400;
+      throw error;
     }
 
     const updatedClient = await clientsService.updateClient(

@@ -37,6 +37,27 @@ bookSchema.BOOK_ID = Joi.object({
 bookSchema.GET_BOOKS_PAGINATED = Joi.object({
   page: Joi.number().required().min(1),
   pageSize: Joi.number().required().min(1),
+  title: Joi.string().optional(),
+  author_name: Joi.string().optional(),
+  ISBN: Joi.string()
+    .optional()
+    .regex(
+      new RegExp(
+        "^(?:ISBN(?:-13)?:? )?(?=[0-9]{13}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)97[89][- ]?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9]$"
+      )
+    ),
+});
+
+bookSchema.GET_ALL_BOOKS = Joi.object({
+  title: Joi.string().optional(),
+  author_name: Joi.string().optional(),
+  ISBN: Joi.string()
+    .optional()
+    .regex(
+      new RegExp(
+        "^(?:ISBN(?:-13)?:? )?(?=[0-9]{13}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)97[89][- ]?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9]$"
+      )
+    ),
 });
 
 module.exports = bookSchema;
