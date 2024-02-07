@@ -2,7 +2,7 @@ const { v4: uuidv4 } = require("uuid");
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
-const client = sequelize.define("client", {
+const Client = sequelize.define("client", {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,
@@ -34,4 +34,4 @@ const client = sequelize.define("client", {
   },
 });
 
-module.exports = client;
+module.exports = Client;

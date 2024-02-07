@@ -2,7 +2,7 @@ const { v4: uuidv4 } = require("uuid");
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
-const Book = sequelize.define("Book", {
+const Book = sequelize.define("book", {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,

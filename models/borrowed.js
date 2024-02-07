@@ -2,39 +2,36 @@ const { v4: uuidv4 } = require("uuid");
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
-const Borrowed = sequelize.define("Borrowed", {
-  borrowing_id: {
+const Borrowing = sequelize.define("borrowing", {
+  id: {
     type: DataTypes.UUID,
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4,
   },
-  book_id: {
+  bookId: {
     type: DataTypes.UUID,
     allowNull: false,
     validate: { notNull: true, notEmpty: true },
-    references: { model: "Books", key: "id" },
+    references: { model: "books", key: "id" },
   },
-  client_id: {
+  clientId: {
     type: DataTypes.UUID,
     allowNull: false,
     validate: { notNull: true, notEmpty: true },
-    references: { model: "Clients", key: "id" },
+    references: { model: "clients", key: "id" },
   },
-  checkout_date: {
+  borrowedAt: {
     type: DataTypes.DATE,
     allowNull: false,
     validate: {
       notNull: true,
     },
   },
-  return_date: {
+  returnedAt: {
     type: DataTypes.DATE,
-    allowNull: false,
-    validate: {
-      notNull: true,
-    },
+    allowNull: true,
   },
-  due_date: {
+  dueDate: {
     type: DataTypes.DATE,
     allowNull: false,
     validate: {
@@ -47,9 +44,9 @@ const Borrowed = sequelize.define("Borrowed", {
     validate: {
       notNull: true,
       notEmpty: true,
-      isIn: ["STATUS_BORROWED", "STATUS_RETURNED"],
+      isIn: [["STATUS_BORROWED", "STATUS_RETURNED"]],
     },
   },
 });
 
-module.exports = Borrowed;
+module.exports = Borrowing;
