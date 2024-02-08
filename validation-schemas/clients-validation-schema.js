@@ -17,8 +17,8 @@ clientSchema.CLIENT_ID = Joi.object({
 });
 
 clientSchema.GET_CLIENTS_PAGINATED = Joi.object({
-  page: Joi.number().required().min(1),
-  pageSize: Joi.number().required().min(1),
+  page: Joi.number().integer().required().min(1),
+  pageSize: Joi.number().integer().required().min(1),
 });
 
 module.exports = clientSchema;

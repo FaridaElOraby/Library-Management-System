@@ -6,11 +6,9 @@ const { Op } = require("sequelize");
 // Service to get overdue books
 async function getOverdueBooks() {
   const query = {
-    where: {
-      status: "STATUS_BORROWED",
-      dueDate: {
-        [Op.lt]: new Date(),
-      },
+    status: "STATUS_BORROWED",
+    dueDate: {
+      [Op.lt]: new Date(),
     },
   };
 
@@ -28,18 +26,22 @@ async function getClientBorrowing(clientId) {
   }
 
   const query = {
-    where: {
-      status: "STATUS_BORROWED",
-      clientId,
-    },
+    status: "STATUS_BORROWED",
+    clientId,
   };
 
   return await borrowDAL.getAll(query);
 }
 
 // Service to get borrowing history
-async function getBorrowingHistroy() {
-  return await borrowDAL.getAll();
+async function getBorrowingHistroy(query) {
+  const { page, pageSize, ...filter } = query;
+  const options = {};
+  if (page && pageSize) {
+    options.offset = (page - 1) * pageSize;
+    options.limit = pageSize;
+  }
+  return await borrowDAL.getAll(filter, options);
 }
 
 // Service to add new record for borrowed book
@@ -83,10 +85,8 @@ async function borrowBook(borrow) {
 // Service to return book
 async function returnBook(borrowRecordId) {
   const query = {
-    where: {
-      id: borrowRecordId,
-      status: "STATUS_BORROWED",
-    },
+    id: borrowRecordId,
+    status: "STATUS_BORROWED",
   };
   const borrowedRecord = await borrowDAL.findOne(query);
 

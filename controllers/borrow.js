@@ -3,9 +3,27 @@ const router = express.Router();
 const borrowService = require("../services/borrow-service");
 const validationSchema = require("../validation-schemas/borrow-validation-schema");
 
-router.get("/borrowing-history", async (req, res) => {
+router.get("/borrowing-history/all", async (req, res) => {
   try {
     const borrowingRecords = await borrowService.getBorrowingHistroy();
+    res.json(borrowingRecords);
+  } catch (err) {
+    res
+      .status(err.statusCode || 500)
+      .json({ error: err.message || "Internal server error" });
+  }
+});
+
+router.get("/borrowing-history", async (req, res) => {
+  try {
+    const validationResult =
+      validationSchema.BORROWING_HISTORY_PAGINATED.validate(req.query);
+    if (validationResult.error) {
+      const error = new Error(validationResult.error.details[0].message);
+      error.statusCode = 400;
+      throw error;
+    }
+    const borrowingRecords = await borrowService.getBorrowingHistroy(req.query);
     res.json(borrowingRecords);
   } catch (err) {
     res

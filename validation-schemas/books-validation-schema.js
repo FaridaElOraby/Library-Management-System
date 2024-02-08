@@ -11,7 +11,7 @@ bookSchema.CREATE_BOOK = Joi.object({
         "^(?:ISBN(?:-13)?:? )?(?=[0-9]{13}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)97[89][- ]?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9]$"
       )
     ),
-  available_quantity: Joi.number().required(),
+  available_quantity: Joi.number().integer().required(),
   shelf_location: Joi.string().required(),
   author_name: Joi.string().required(),
 });
@@ -25,7 +25,7 @@ bookSchema.UPDATE_BOOK = Joi.object({
         "^(?:ISBN(?:-13)?:? )?(?=[0-9]{13}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)97[89][- ]?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9]$"
       )
     ),
-  available_quantity: Joi.number().optional(),
+  available_quantity: Joi.number().integer().optional(),
   shelf_location: Joi.string().optional(),
   author_name: Joi.string().optional(),
 });
@@ -35,8 +35,8 @@ bookSchema.BOOK_ID = Joi.object({
 });
 
 bookSchema.GET_BOOKS_PAGINATED = Joi.object({
-  page: Joi.number().required().min(1),
-  pageSize: Joi.number().required().min(1),
+  page: Joi.number().integer().required().min(1),
+  pageSize: Joi.number().integer().required().min(1),
   title: Joi.string().optional(),
   author_name: Joi.string().optional(),
   ISBN: Joi.string()

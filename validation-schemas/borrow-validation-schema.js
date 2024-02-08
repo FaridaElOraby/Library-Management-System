@@ -15,4 +15,9 @@ borrowSchema.GET_CLIENT_BORROWING = Joi.object({
   clientId: Joi.string().uuid().required(),
 });
 
+borrowSchema.BORROWING_HISTORY_PAGINATED = Joi.object({
+  page: Joi.number().integer().required().min(1),
+  pageSize: Joi.number().integer().required().min(1),
+});
+
 module.exports = borrowSchema;
