@@ -1,6 +1,21 @@
 const borrowDAL = require("../dal/borrow-dal");
 const clientService = require("./clients-service");
 const bookService = require("./books-service");
+const { Op } = require("sequelize");
+
+// Service to get overdue books
+async function getOverdueBooks() {
+  const query = {
+    where: {
+      status: "STATUS_BORROWED",
+      dueDate: {
+        [Op.lt]: new Date(),
+      },
+    },
+  };
+
+  return await borrowDAL.getAll(query);
+}
 
 // Service to get borrowing history
 async function getBorrowingHistroy() {
@@ -83,6 +98,7 @@ async function returnBook(borrowRecordId) {
 }
 
 module.exports = {
+  getOverdueBooks,
   getBorrowingHistroy,
   borrowBook,
   returnBook,

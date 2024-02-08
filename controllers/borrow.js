@@ -14,6 +14,17 @@ router.get("/borrowing-history", async (req, res) => {
   }
 });
 
+router.get("/overdue-books", async (req, res) => {
+  try {
+    const borrowingRecords = await borrowService.getOverdueBooks();
+    res.json(borrowingRecords);
+  } catch (err) {
+    res
+      .status(err.statusCode || 500)
+      .json({ error: err.message || "Internal server error" });
+  }
+});
+
 router.post("/borrow-book", async (req, res) => {
   try {
     const validationResult = validationSchema.BORROW_BOOK.validate(req.body);

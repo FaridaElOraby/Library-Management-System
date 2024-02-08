@@ -1,8 +1,8 @@
 const Borrowing = require("../models/borrowed");
 
 // DAL to get all borrowinh histroy filtered by filters
-async function getAll() {
-  return await Borrowing.findAll();
+async function getAll(query) {
+  return await Borrowing.findAll(query);
 }
 
 // DAL to create a new borrowed record
