@@ -17,6 +17,26 @@ async function getOverdueBooks() {
   return await borrowDAL.getAll(query);
 }
 
+// Service to get client's currently borrowed books
+async function getClientBorrowing(clientId) {
+  const client = await clientService.getClient(clientId);
+
+  if (!client) {
+    const error = new Error("Client not found");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  const query = {
+    where: {
+      status: "STATUS_BORROWED",
+      clientId,
+    },
+  };
+
+  return await borrowDAL.getAll(query);
+}
+
 // Service to get borrowing history
 async function getBorrowingHistroy() {
   return await borrowDAL.getAll();
@@ -98,6 +118,7 @@ async function returnBook(borrowRecordId) {
 }
 
 module.exports = {
+  getClientBorrowing,
   getOverdueBooks,
   getBorrowingHistroy,
   borrowBook,

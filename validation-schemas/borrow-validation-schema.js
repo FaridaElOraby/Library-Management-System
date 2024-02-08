@@ -11,4 +11,8 @@ borrowSchema.RETURN_BOOK = Joi.object({
   borrowRecordId: Joi.string().uuid().required(),
 });
 
+borrowSchema.GET_CLIENT_BORROWING = Joi.object({
+  clientId: Joi.string().uuid().required(),
+});
+
 module.exports = borrowSchema;

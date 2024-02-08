@@ -25,6 +25,27 @@ router.get("/overdue-books", async (req, res) => {
   }
 });
 
+router.get("/client/:clientId/borrowing", async (req, res) => {
+  try {
+    const validationResult = validationSchema.GET_CLIENT_BORROWING.validate(
+      req.params
+    );
+    if (validationResult.error) {
+      const error = new Error(validationResult.error.details[0].message);
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const clientId = req.params.clientId;
+    const borrowingRecords = await borrowService.getClientBorrowing(clientId);
+    res.json(borrowingRecords);
+  } catch (err) {
+    res
+      .status(err.statusCode || 500)
+      .json({ error: err.message || "Internal server error" });
+  }
+});
+
 router.post("/borrow-book", async (req, res) => {
   try {
     const validationResult = validationSchema.BORROW_BOOK.validate(req.body);
