@@ -1,8 +1,22 @@
 const Borrowing = require("../models/borrowed");
+const Book = require("../models/books");
+const Client = require("../models/clients");
 
 // DAL to get all borrowinh histroy filtered by filters
 async function getAll(filter, options) {
   return await Borrowing.findAll({
+    include: [
+      {
+        model: Book,
+        as: "book",
+        attributes: ["title", "author_name"],
+      },
+      {
+        model: Client,
+        as: "client",
+        attributes: ["name", "email"],
+      },
+    ],
     where: filter,
     ...options,
   });
