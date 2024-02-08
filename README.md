@@ -12,9 +12,9 @@ Update a book: The system allows you to update the details of a book, such as mo
 
 Delete a book: You have the option to delete a book from the system if it is no longer needed.
 
-List all books unpaginated: The system provides a functionality to list all the books available in the library. The list can be filtered by title, author name and/or ISBN.
+List all books unpaginated: The system provides a functionality to list all the books available in the library. The list can be filtered by title, author name, and/or ISBN.
 
-List all books paginated: The system provides a functionality to list all the books available in the library paginated for better scalability and performance . The list can be filtered by title, author name and/or ISBN.
+List all books paginated: The system provides a functionality to list all the books available in the library paginated for better scalability and performance. The list can be filtered by title, author name, and/or ISBN.
 
 Search for a book by id: You can search for a book by its id to quickly find the desired book.
 
@@ -22,11 +22,11 @@ Search for a book by id: You can search for a book by its id to quickly find the
 
 Register a client: You can register a client by providing basic details such as name and email.
 
-Update client's details: The system allows you to update the details of a client, such as modifying their name, or email.
+Update client's details: The system allows you to update the details of a client, such as modifying their name or email.
 
 Delete a client: You have the option to delete a client from the system if needed.
 
-List all clients unpaginated: The system provides a functionality to list all the registered clients unpagnated.
+List all clients unpaginated: The system provides a functionality to list all the registered clients unpaginated.
 
 List all clients paginated: The system provides a functionality to list all the registered clients paginated for better scalability and performance.
 
@@ -40,9 +40,9 @@ View borrowed books: Clients can view the books they currently have checked out.
 
 Track due dates: The system keeps track of due dates for borrowed books and provides a list of books that are overdue.
 
-List all borrowed books with history unpaginated: The system provides a functionality to list all the borrowed books history from the start of the system till now unpaginated.
+List all borrowed books with history unpaginated: The system provides a functionality to list all the borrowed books' history from the start of the system until now unpaged.
 
-List all borrowed books with history: The system provides a functionality to list all the borrowed books history from the start of the system till now paginated for better scalability and performance.
+List all borrowed books with history: The system provides a functionality to list all the borrowed books' history from the start of the system until now paginated for better scalability and performance.
 
 ## Technologies Used
 
@@ -59,7 +59,7 @@ To run this library management system locally, follow these steps:
 
 1. Clone the repository: git clone https://github.com/FaridaElOraby/Library-Management-System.git
 2. Install the dependencies: npm install
-3. Create a new postgres database and update the database configuration by replacing the connection string in the .env file.
+3. Create a new Postgres database and update the database configuration by replacing the connection string in the .env file.
 4. Start the application: npm start; the server runs on port 3000 and can be changed by replacing the port in the .env file.
 5. Make sure you have Node.js and Postgres installed on your machine before proceeding with the installation.
 
@@ -69,16 +69,16 @@ The API endpoints for interacting with the library management system are as foll
 
 ### Books
 
-GET /books/all: Get a list of all books unpaginated.
+GET /books/all: Get a list of all books unpaged.
 GET /books/all: Get a list of all books paginated.
 POST /books: Add a new book.
 GET /books/:id: Get details of a specific book.
 PUT /books/:id: Update details of a specific book.
 DELETE /books/:id: Delete a specific book.
 
-### Borrowers
+### Clients
 
-GET /clients/all: Get a list of all clients unpaginated.
+GET /clients/all: Get a list of all clients unpaged.
 GET /clients: Get a list of all clients paginated.
 POST /clients: Register a new client.
 GET /clients/:id: Get details of a specific client.
@@ -87,10 +87,10 @@ DELETE /clients/:id: Delete a specific client.
 
 ### Borrowing Process
 
-GET /clients/all: Get a list of the history of all borrowing transactions unpaginated.
-GET /clients: Get a list of the history of all borrowing transactions paginated
+GET /clients/all: Get a list of the history of all borrowing transactions unpaged.
+GET /clients: Get a list of the history of all borrowing transactions paginated.
 POST /borrowing/checkout: Check out a book.
-POST /borrowing/return/id: Return a specific book by providing borrowing record id.
+POST /borrowing/return/id: Return a specific book by providing the borrowing record id.
 GET /borrowing/borrowed-books/:clientId: Get a list of books currently borrowed by a borrower.
 GET /borrowing/overdue-books: Get a list of books that are overdue.
 
