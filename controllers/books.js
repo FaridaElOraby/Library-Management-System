@@ -6,9 +6,16 @@ const validationSchema = require("../validation-schemas/books-validation-schema"
 // API to get all books unpaginated
 router.get("/books/all", async (req, res) => {
   try {
-    const validationResult = validationSchema.GET_ALL_BOOKS.validate(req.query);
+    const validationResult = validationSchema.GET_ALL_BOOKS.validate(
+      req.query,
+      { abortEarly: false }
+    );
     if (validationResult.error) {
-      const error = new Error(validationResult.error.details[0].message);
+      const errorMessage = validationResult.error.details
+        .map((detail) => detail.message)
+        .join(", ");
+
+      const error = new Error(errorMessage);
       error.statusCode = 400;
       throw error;
     }
@@ -26,10 +33,15 @@ router.get("/books/all", async (req, res) => {
 router.get("/books", async (req, res) => {
   try {
     const validationResult = validationSchema.GET_BOOKS_PAGINATED.validate(
-      req.query
+      req.query,
+      { abortEarly: false }
     );
     if (validationResult.error) {
-      const error = new Error(validationResult.error.details[0].message);
+      const errorMessage = validationResult.error.details
+        .map((detail) => detail.message)
+        .join(", ");
+
+      const error = new Error(errorMessage);
       error.statusCode = 400;
       throw error;
     }
@@ -49,9 +61,15 @@ router.get("/books", async (req, res) => {
 // API to create a new book
 router.post("/books", async (req, res) => {
   try {
-    const validationResult = validationSchema.CREATE_BOOK.validate(req.body);
+    const validationResult = validationSchema.CREATE_BOOK.validate(req.body, {
+      abortEarly: false,
+    });
     if (validationResult.error) {
-      const error = new Error(validationResult.error.details[0].message);
+      const errorMessage = validationResult.error.details
+        .map((detail) => detail.message)
+        .join(", ");
+
+      const error = new Error(errorMessage);
       error.statusCode = 400;
       throw error;
     }
@@ -70,9 +88,15 @@ router.post("/books", async (req, res) => {
 // API to get a book by id
 router.get("/books/:id", async (req, res) => {
   try {
-    const validationResult = validationSchema.BOOK_ID.validate(req.params);
+    const validationResult = validationSchema.BOOK_ID.validate(req.params, {
+      abortEarly: false,
+    });
     if (validationResult.error) {
-      const error = new Error(validationResult.error.details[0].message);
+      const errorMessage = validationResult.error.details
+        .map((detail) => detail.message)
+        .join(", ");
+
+      const error = new Error(errorMessage);
       error.statusCode = 400;
       throw error;
     }
@@ -91,14 +115,22 @@ router.get("/books/:id", async (req, res) => {
 // API to update a book by id
 router.put("/books/:id", async (req, res) => {
   try {
-    const validationResult = validationSchema.BOOK_ID.validate(req.params);
+    const validationResult = validationSchema.BOOK_ID.validate(req.params, {
+      abortEarly: false,
+    });
     if (validationResult.error) {
-      const error = new Error(validationResult.error.details[0].message);
+      const errorMessage = validationResult.error.details
+        .map((detail) => detail.message)
+        .join(", ");
+
+      const error = new Error(errorMessage);
       error.statusCode = 400;
       throw error;
     }
 
-    const validationResult2 = validationSchema.UPDATE_BOOK.validate(req.body);
+    const validationResult2 = validationSchema.UPDATE_BOOK.validate(req.body, {
+      abortEarly: false,
+    });
     if (validationResult2.error) {
       res.status(400).send(validationResult2.error.details[0].message);
       return;
@@ -119,9 +151,15 @@ router.put("/books/:id", async (req, res) => {
 // API to delete a book by id
 router.delete("/books/:id", async (req, res) => {
   try {
-    const validationResult = validationSchema.BOOK_ID.validate(req.params);
+    const validationResult = validationSchema.BOOK_ID.validate(req.params, {
+      abortEarly: false,
+    });
     if (validationResult.error) {
-      const error = new Error(validationResult.error.details[0].message);
+      const errorMessage = validationResult.error.details
+        .map((detail) => detail.message)
+        .join(", ");
+
+      const error = new Error(errorMessage);
       error.statusCode = 400;
       throw error;
     }

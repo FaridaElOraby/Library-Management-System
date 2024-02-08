@@ -19,10 +19,15 @@ router.get("/clients/all", async (req, res) => {
 router.get("/clients", async (req, res) => {
   try {
     const validationResult = validationSchema.GET_CLIENTS_PAGINATED.validate(
-      req.query
+      req.query,
+      { abortEarly: false }
     );
     if (validationResult.error) {
-      const error = new Error(validationResult.error.details[0].message);
+      const errorMessage = validationResult.error.details
+        .map((detail) => detail.message)
+        .join(", ");
+
+      const error = new Error(errorMessage);
       error.statusCode = 400;
       throw error;
     }
@@ -42,9 +47,15 @@ router.get("/clients", async (req, res) => {
 // API to create a new client
 router.post("/clients", async (req, res) => {
   try {
-    const validationResult = validationSchema.CREATE_CLIENT.validate(req.body);
+    const validationResult = validationSchema.CREATE_CLIENT.validate(req.body, {
+      abortEarly: false,
+    });
     if (validationResult.error) {
-      const error = new Error(validationResult.error.details[0].message);
+      const errorMessage = validationResult.error.details
+        .map((detail) => detail.message)
+        .join(", ");
+
+      const error = new Error(errorMessage);
       error.statusCode = 400;
       throw error;
     }
@@ -80,9 +91,15 @@ router.get("/clients/:id", async (req, res) => {
 // API to update a client by id
 router.put("/clients/:id", async (req, res) => {
   try {
-    const validationResult = validationSchema.UPDATE_CLIENT.validate(req.body);
+    const validationResult = validationSchema.UPDATE_CLIENT.validate(req.body, {
+      abortEarly: false,
+    });
     if (validationResult.error) {
-      const error = new Error(validationResult.error.details[0].message);
+      const errorMessage = validationResult.error.details
+        .map((detail) => detail.message)
+        .join(", ");
+
+      const error = new Error(errorMessage);
       error.statusCode = 400;
       throw error;
     }

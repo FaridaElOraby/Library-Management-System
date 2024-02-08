@@ -17,9 +17,15 @@ router.get("/borrowing-history/all", async (req, res) => {
 router.get("/borrowing-history", async (req, res) => {
   try {
     const validationResult =
-      validationSchema.BORROWING_HISTORY_PAGINATED.validate(req.query);
+      validationSchema.BORROWING_HISTORY_PAGINATED.validate(req.query, {
+        abortEarly: false,
+      });
     if (validationResult.error) {
-      const error = new Error(validationResult.error.details[0].message);
+      const errorMessage = validationResult.error.details
+        .map((detail) => detail.message)
+        .join(", ");
+
+      const error = new Error(errorMessage);
       error.statusCode = 400;
       throw error;
     }
@@ -46,10 +52,15 @@ router.get("/overdue-books", async (req, res) => {
 router.get("/client/:clientId/borrowing", async (req, res) => {
   try {
     const validationResult = validationSchema.GET_CLIENT_BORROWING.validate(
-      req.params
+      req.params,
+      { abortEarly: false }
     );
     if (validationResult.error) {
-      const error = new Error(validationResult.error.details[0].message);
+      const errorMessage = validationResult.error.details
+        .map((detail) => detail.message)
+        .join(", ");
+
+      const error = new Error(errorMessage);
       error.statusCode = 400;
       throw error;
     }
@@ -66,9 +77,15 @@ router.get("/client/:clientId/borrowing", async (req, res) => {
 
 router.post("/borrow-book", async (req, res) => {
   try {
-    const validationResult = validationSchema.BORROW_BOOK.validate(req.body);
+    const validationResult = validationSchema.BORROW_BOOK.validate(req.body, {
+      abortEarly: false,
+    });
     if (validationResult.error) {
-      const error = new Error(validationResult.error.details[0].message);
+      const errorMessage = validationResult.error.details
+        .map((detail) => detail.message)
+        .join(", ");
+
+      const error = new Error(errorMessage);
       error.statusCode = 400;
       throw error;
     }
@@ -85,9 +102,15 @@ router.post("/borrow-book", async (req, res) => {
 
 router.post("/return-book/:borrowRecordId", async (req, res) => {
   try {
-    const validationResult = validationSchema.RETURN_BOOK.validate(req.params);
+    const validationResult = validationSchema.RETURN_BOOK.validate(req.params, {
+      abortEarly: false,
+    });
     if (validationResult.error) {
-      const error = new Error(validationResult.error.details[0].message);
+      const errorMessage = validationResult.error.details
+        .map((detail) => detail.message)
+        .join(", ");
+
+      const error = new Error(errorMessage);
       error.statusCode = 400;
       throw error;
     }
