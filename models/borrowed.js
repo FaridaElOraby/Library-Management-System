@@ -1,6 +1,8 @@
 const { v4: uuidv4 } = require("uuid");
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
+const Book = require("./books");
+const Client = require("./clients");
 
 const Borrowing = sequelize.define("borrowing", {
   id: {
@@ -48,5 +50,8 @@ const Borrowing = sequelize.define("borrowing", {
     },
   },
 });
+
+Borrowing.belongsTo(Book, { foreignKey: "bookId", as: "book" });
+Borrowing.belongsTo(Client, { foreignKey: "clientId", as: "client" });
 
 module.exports = Borrowing;
