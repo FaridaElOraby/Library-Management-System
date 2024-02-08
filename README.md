@@ -70,28 +70,28 @@ The API endpoints for interacting with the library management system are as foll
 ### Books
 
 GET /books/all: Get a list of all books unpaged.
-GET /books/all: Get a list of all books paginated.
-POST /books: Add a new book.
-GET /books/:id: Get details of a specific book.
-PUT /books/:id: Update details of a specific book.
-DELETE /books/:id: Delete a specific book.
+<br/> GET /books/all: Get a list of all books paginated.
+<br/> POST /books: Add a new book.
+<br/> GET /books/:id: Get details of a specific book.
+<br/> PUT /books/:id: Update details of a specific book.
+<br/> DELETE /books/:id: Delete a specific book.
 
 ### Clients
 
 GET /clients/all: Get a list of all clients unpaged.
-GET /clients: Get a list of all clients paginated.
-POST /clients: Register a new client.
-GET /clients/:id: Get details of a specific client.
-PUT /clients/:id: Update details of a specific client.
-DELETE /clients/:id: Delete a specific client.
+<br/> GET /clients: Get a list of all clients paginated.
+<br/> POST /clients: Register a new client.
+<br/> GET /clients/:id: Get details of a specific client.
+<br/> PUT /clients/:id: Update details of a specific client.
+<br/> DELETE /clients/:id: Delete a specific client.
 
 ### Borrowing Process
 
 GET /clients/all: Get a list of the history of all borrowing transactions unpaged.
-GET /clients: Get a list of the history of all borrowing transactions paginated.
-POST /borrowing/checkout: Check out a book.
-POST /borrowing/return/id: Return a specific book by providing the borrowing record id.
-GET /borrowing/borrowed-books/:clientId: Get a list of books currently borrowed by a borrower.
-GET /borrowing/overdue-books: Get a list of books that are overdue.
+<br/> GET /clients: Get a list of the history of all borrowing transactions paginated.
+<br/> POST /borrowing/checkout: Check out a book.
+<br/> POST /borrowing/return/id: Return a specific book by providing the borrowing record id.
+<br/> GET /borrowing/borrowed-books/:clientId: Get a list of books currently borrowed by a borrower.
+<br/> GET /borrowing/overdue-books: Get a list of books that are overdue.
 
 Please refer to the API documentation or code implementation for more details on the request/response format and required parameters for each endpoint.
