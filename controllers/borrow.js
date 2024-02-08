@@ -3,7 +3,7 @@ const router = express.Router();
 const borrowService = require("../services/borrow-service");
 const validationSchema = require("../validation-schemas/borrow-validation-schema");
 
-router.get("/borrowing-history/all", async (req, res) => {
+router.get("/borrowing/all", async (req, res) => {
   try {
     const borrowingRecords = await borrowService.getBorrowingHistroy();
     res.json(borrowingRecords);
@@ -14,7 +14,7 @@ router.get("/borrowing-history/all", async (req, res) => {
   }
 });
 
-router.get("/borrowing-history", async (req, res) => {
+router.get("/borrowing", async (req, res) => {
   try {
     const validationResult =
       validationSchema.BORROWING_HISTORY_PAGINATED.validate(req.query, {
@@ -38,7 +38,7 @@ router.get("/borrowing-history", async (req, res) => {
   }
 });
 
-router.get("/overdue-books", async (req, res) => {
+router.get("/borrowing/overdue-books", async (req, res) => {
   try {
     const borrowingRecords = await borrowService.getOverdueBooks();
     res.json(borrowingRecords);
@@ -49,7 +49,7 @@ router.get("/overdue-books", async (req, res) => {
   }
 });
 
-router.get("/client/:clientId/borrowing", async (req, res) => {
+router.get("/borrowing/borrowed-books/:clientId", async (req, res) => {
   try {
     const validationResult = validationSchema.GET_CLIENT_BORROWING.validate(
       req.params,
@@ -75,7 +75,7 @@ router.get("/client/:clientId/borrowing", async (req, res) => {
   }
 });
 
-router.post("/borrow-book", async (req, res) => {
+router.post("/borrowing/checkout", async (req, res) => {
   try {
     const validationResult = validationSchema.BORROW_BOOK.validate(req.body, {
       abortEarly: false,
@@ -100,7 +100,7 @@ router.post("/borrow-book", async (req, res) => {
   }
 });
 
-router.post("/return-book/:borrowRecordId", async (req, res) => {
+router.post("/borrowing/return/:borrowRecordId", async (req, res) => {
   try {
     const validationResult = validationSchema.RETURN_BOOK.validate(req.params, {
       abortEarly: false,
