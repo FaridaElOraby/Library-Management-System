@@ -35,13 +35,16 @@ async function getClientBorrowing(clientId) {
 
 // Service to get borrowing history
 async function getBorrowingHistroy(query) {
-  const { page, pageSize, ...filter } = query;
-  const options = {};
-  if (page && pageSize) {
-    options.offset = (page - 1) * pageSize;
-    options.limit = pageSize;
+  if (query) {
+    const { page, pageSize, ...filter } = query;
+    const options = {};
+    if (page && pageSize) {
+      options.offset = (page - 1) * pageSize;
+      options.limit = pageSize;
+    }
+    return await borrowDAL.getAll(filter, options);
   }
-  return await borrowDAL.getAll(filter, options);
+  return await borrowDAL.getAll();
 }
 
 // Service to add new record for borrowed book
@@ -86,13 +89,19 @@ async function borrowBook(borrow) {
 async function returnBook(borrowRecordId) {
   const query = {
     id: borrowRecordId,
-    status: "STATUS_BORROWED",
   };
+
   const borrowedRecord = await borrowDAL.findOne(query);
 
   if (!borrowedRecord) {
     const error = new Error("Borrowed record not found");
     error.statusCode = 404;
+    throw error;
+  }
+
+  if (borrowedRecord.status === "STATUS_RETURNED") {
+    const error = new Error("Book already returned");
+    error.statusCode = 400;
     throw error;
   }
 
