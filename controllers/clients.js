@@ -113,7 +113,7 @@ router.put("/clients/:id", async (req, res) => {
       return;
     }
 
-    res.json(updatedClient);
+    res.sendStatus(204);
   } catch (err) {
     res
       .status(err.statusCode || 500)
@@ -130,7 +130,7 @@ router.delete("/clients/:id", async (req, res) => {
       return;
     }
 
-    res.json(deletedClient);
+    res.sendStatus(204);
   } catch (err) {
     res
       .status(err.statusCode || 500)
