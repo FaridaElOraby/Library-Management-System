@@ -148,7 +148,6 @@ Request Body (optional fields): <br/>
 ```
 
 Success Response: 204 No Content with no body.
-parameters validatio
 
 #### Delete a Book by ID
 
@@ -157,13 +156,12 @@ DELETE /books/:id
 URL Parameters: id (UUID of the book)
 
 Success Response: 204 No Content with no body.
-validation fails
 
 ### Clients (Borrowers)
 
 #### List All Clients (Unpaginated)
 
-Endpoint: GET /clients/all
+GET /clients/all
 
 Description: Retrieves all client records without pagination.
 
@@ -185,7 +183,7 @@ Success Response: 200 OK with an array of client objects.
 
 ### List Clients (Paginated)
 
-Endpoint: GET /clients
+GET /clients
 
 Description: Retrieves clients with pagination.
 
@@ -216,7 +214,7 @@ Success Response: 200 OK with an array of paginated client objects.
 
 ### Create a New Client
 
-Endpoint: POST /clients
+POST /clients
 
 Description: Creates a new client record.
 
@@ -243,7 +241,7 @@ Success Response: 201 Created with the created client object.
 
 ### Get a Client by ID
 
-Endpoint: GET /clients/:id
+GET /clients/:id
 
 Description: Retrieves a specific client by their UUID.
 
@@ -263,7 +261,7 @@ Success Response: 200 OK with the client object.
 
 #### Update a Client by ID
 
-Endpoint: PUT /clients/:id
+PUT /clients/:id
 
 Description: Updates an existing client record by UUID.
 
@@ -278,44 +276,24 @@ Request Body:
 }
 ```
 
-Success Response: 200 OK with the updated client object.
-
-```
-{
-    id: String,
-    name: String,
-    email: String,
-    registeredAt: Date
-
-}
-```
+Success Response: 204 No Content with no body.
 
 ### Delete a Client by ID
 
-Endpoint: DELETE /clients/:id
+DELETE /clients/:id
 
 Description: Deletes a specific client by their UUID.
 
 URL Parameters:
 id: The UUID of the client.
 
-Success Response: 200 OK with the deleted client object.
-
-```
-{
-    id: String,
-    name: String,
-    email: String,
-    registeredAt: Date
-
-}
-```
+Success Response: 204 No Content with no body.
 
 ### Borrowing
 
 ### List All Borrowing Records (Unpaginated)
 
-Endpoint: GET /borrowing/all
+GET /borrowing/all
 
 Description: Retrieves all borrowing records without pagination.
 
@@ -327,23 +305,17 @@ Success Response: 200 OK with an array of borrowing records.
 [
     {
         id: String,
-
+        bookId: String
         book: {
-        id: String,
         title: String,
         ISBN: String,
         author_name: String,
-        available_quantity: Integer,
-        shelf_location:  String,
         },
-
+        clientId: String,
         clients: {
-            id: String,
             name: String,
             email: String,
-            registeredAt: String
         },
-
         borrowedAt: Date,
         returnedAt: Date,
         dueDate: Date,
@@ -354,7 +326,7 @@ Success Response: 200 OK with an array of borrowing records.
 
 ### List All Borrowing Records (Paginated)
 
-Endpoint: GET /borrowing
+GET /borrowing
 
 Description: Retrieves borrowing records with pagination.
 
@@ -377,23 +349,17 @@ Success Response: 200 OK with an array of paginated borrowing records.
 [
     {
         id: String,
-
+        bookId: String
         book: {
-        id: String,
         title: String,
         ISBN: String,
         author_name: String,
-        available_quantity: Integer,
-        shelf_location:  String,
         },
-
+        clientId: String,
         clients: {
-            id: String,
             name: String,
             email: String,
-            registeredAt: String
         },
-
         borrowedAt: Date,
         returnedAt: Date,
         dueDate: Date,
@@ -406,7 +372,7 @@ Success Response: 200 OK with an array of paginated borrowing records.
 
 ### List Overdue Books
 
-Endpoint: GET /borrowing/overdue-books
+GET /borrowing/overdue-books
 
 Description: Retrieves a list of overdue borrowing records.
 
@@ -419,23 +385,17 @@ Success Response: 200 OK with an array of overdue borrowing records.
 [
     {
         id: String,
-
+        bookId: String
         book: {
-        id: String,
         title: String,
         ISBN: String,
         author_name: String,
-        available_quantity: Integer,
-        shelf_location:  String,
         },
-
+        clientId: String,
         clients: {
-            id: String,
             name: String,
             email: String,
-            registeredAt: String
         },
-
         borrowedAt: Date,
         returnedAt: Date,
         dueDate: Date,
@@ -448,7 +408,7 @@ Success Response: 200 OK with an array of overdue borrowing records.
 
 ### List Borrowed Books by Client ID
 
-Endpoint: GET /borrowing/borrowed-books/:clientId
+GET /borrowing/borrowed-books/:clientId
 
 Description: Retrieves borrowing records for a specific client.
 
@@ -462,23 +422,17 @@ Success Response: 200 OK with an array of borrowing records for the specified cl
 [
     {
         id: String,
-
+        bookId: String
         book: {
-        id: String,
         title: String,
         ISBN: String,
         author_name: String,
-        available_quantity: Integer,
-        shelf_location:  String,
         },
-
+        clientId: String,
         clients: {
-            id: String,
             name: String,
             email: String,
-            registeredAt: String
         },
-
         borrowedAt: Date,
         returnedAt: Date,
         dueDate: Date,
@@ -491,7 +445,7 @@ Success Response: 200 OK with an array of borrowing records for the specified cl
 
 ### Check Out a Book
 
-Endpoint: POST /borrowing/checkout
+POST /borrowing/checkout
 
 Description: Records a new borrowing event when a client checks out a book.
 
@@ -512,35 +466,19 @@ Success Response: 201 Created with the created borrowing record.
 
 {
     id: String,
-
-    book: {
-    id: String,
-    title: String,
-    ISBN: String,
-    author_name: String,
-    available_quantity: Integer,
-    shelf_location:  String,
-    },
-
-    clients: {
-        id: String,
-        name: String,
-        email: String,
-        registeredAt: String
-    },
-
+    bookId: String,
+    clientId: String,
     borrowedAt: Date,
     returnedAt: Date,
     dueDate: Date,
     status: String,
-
 }
 
 ```
 
 ### Return a Book
 
-Endpoint: POST /borrowing/return/:borrowRecordId
+POST /borrowing/return/:borrowRecordId
 
 Description: Records the return of a borrowed book.
 
@@ -550,31 +488,23 @@ borrowRecordId: Required, UUID of the borrowing record.
 Success Response: 200 OK with the updated borrowing record marked as returned.
 
 ```
-
 {
     id: String,
-
+    bookId: String
     book: {
-    id: String,
     title: String,
     ISBN: String,
     author_name: String,
-    available_quantity: Integer,
-    shelf_location:  String,
     },
-
+    clientId: String,
     clients: {
-        id: String,
         name: String,
         email: String,
-        registeredAt: String
     },
-
     borrowedAt: Date,
     returnedAt: Date,
     dueDate: Date,
     status: String,
-
 }
 
 ```
