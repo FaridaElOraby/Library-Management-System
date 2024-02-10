@@ -87,8 +87,8 @@ GET /clients/all: Get a list of all clients unpaged.
 
 ### Borrowing Process
 
-GET /clients/all: Get a list of the history of all borrowing transactions unpaged.
-<br/> GET /clients: Get a list of the history of all borrowing transactions paginated.
+GET /borrowing/all: Get a list of the history of all borrowing transactions unpaged.
+<br/> GET /borrowing: Get a list of the history of all borrowing transactions paginated.
 <br/> POST /borrowing/checkout: Check out a book.
 <br/> POST /borrowing/return/id: Return a specific book by providing the borrowing record id.
 <br/> GET /borrowing/borrowed-books/:clientId: Get a list of books currently borrowed by a borrower.
