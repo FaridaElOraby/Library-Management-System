@@ -9,7 +9,7 @@ async function getAll(filter, options) {
       {
         model: Book,
         as: "book",
-        attributes: ["title", "author_name"],
+        attributes: ["title", "author_name", "ISBN"],
       },
       {
         model: Client,
@@ -29,9 +29,11 @@ async function create(borrow) {
 
 // DAL to update a borrow by id
 async function update(query, updateStatement) {
-  const borrow = await Borrowing.findOne(query);
+  const borrow = await Borrowing.findOne({
+    where: query,
+  });
   if (borrow) {
-    await borrow.update(updateStatement);
+    return await borrow.update(updateStatement);
   } else {
     const error = new Error("Borrowed not found");
     error.statusCode = 404;
@@ -41,7 +43,16 @@ async function update(query, updateStatement) {
 
 // DAL to find a borrow by query
 async function findOne(query) {
-  return await Borrowing.findOne(query);
+  return await Borrowing.findOne({
+    where: query,
+  });
+}
+
+//DAL to delete a borrow by query
+async function deleteBorrow(query) {
+  return await Borrowing.destroy({
+    where: query,
+  });
 }
 
 module.exports = {
@@ -49,4 +60,5 @@ module.exports = {
   create,
   update,
   findOne,
+  deleteBorrow,
 };
