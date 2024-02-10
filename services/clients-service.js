@@ -1,4 +1,5 @@
 const clientsDAL = require("../dal/clients-dal");
+const borrowDAL = require("../dal/borrow-dal");
 
 // Service to get client by id
 async function getClient(id) {
@@ -42,7 +43,19 @@ async function updateClient(clientId, updatedclient) {
 
 // Service to delete a client by id
 async function deleteClient(clientId) {
-  return await clientsDAL.deleteClient(clientId);
+  // Check if client has borrowed books
+  const borrowings = await borrowDAL.getAll({
+    clientId,
+    status: "STATUS_BORROWED",
+  });
+  if (borrowings.length > 0) {
+    const error = new Error("Client has borrowed books");
+    error.statusCode = 400;
+    throw error;
+  } else {
+    await borrowDAL.deleteBorrow({ clientId });
+    return await clientsDAL.deleteClient(clientId);
+  }
 }
 
 module.exports = {
