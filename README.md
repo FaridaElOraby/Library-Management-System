@@ -94,4 +94,4 @@ GET /clients/all: Get a list of the history of all borrowing transactions unpage
 <br/> GET /borrowing/borrowed-books/:clientId: Get a list of books currently borrowed by a borrower.
 <br/> GET /borrowing/overdue-books: Get a list of books that are overdue.
 
-Please refer to the API documentation or code implementation for more details on the request/response format and required parameters for each endpoint.
+Please refer to the [API documentation](./apis.md) or code implementation for more details on the request/response format and required parameters for each endpoint.
